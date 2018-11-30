@@ -1,6 +1,10 @@
-# Advent of Code Elixir Starter
+# Advent of Code 2018 (Elixir)
 
-A batteries included starter pack for participating in [Advent of Code](https://www.adventofcode.com) using Elixir!
+My attempt at [Advent of Code](https://www.adventofcode.com) using Elixir
+(let's see how far I get this year).
+
+Based on [mhanberg's starter
+project](https://github.com/mhanberg/advent-of-code-elixir-starter).
 
 ## Usage
 
