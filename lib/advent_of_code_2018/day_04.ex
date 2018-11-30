@@ -1,7 +1,7 @@
 defmodule AdventOfCode2018.Day04 do
-  def part1(args) do
+  def part1(_args) do
   end
 
-  def part2(args) do
+  def part2(_args) do
   end
 end
