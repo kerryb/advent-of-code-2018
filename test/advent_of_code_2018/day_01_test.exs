@@ -15,11 +15,16 @@ defmodule AdventOfCode2018.Day01Test do
     assert result == 4
   end
 
-  @tag :skip
-  test "part2" do
-    input = nil 
+  test "part2 finds the first repeated frequency (looping the input)" do
+    input = """
+    +1
+    -2
+    +3
+    +1
+    """
+
     result = part2(input)
 
-    assert result
+    assert result == 2
   end
 end
