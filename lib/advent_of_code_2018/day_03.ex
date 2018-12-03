@@ -1,10 +1,20 @@
 defmodule AdventOfCode2018.Day03 do
   def part1(args) do
-    ~r/^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/m
-    |> Regex.scan(args, capture: :all_but_first)
-    |> Enum.map(fn captures -> Enum.map(captures, &String.to_integer/1) end)
-    |> Enum.reduce(%{}, &record_covered/2)
+    args
+    |> parse()
+    |> calculate_coverage()
     |> Enum.count(fn {_, ids} -> length(ids) > 1 end)
+  end
+
+  defp parse(input) do
+    ~r/^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/m
+    |> Regex.scan(input, capture: :all_but_first)
+    |> Enum.map(fn captures -> Enum.map(captures, &String.to_integer/1) end)
+  end
+
+  defp calculate_coverage(claims) do
+    claims
+    |> Enum.reduce(%{}, &record_covered/2)
   end
 
   defp record_covered([id, x_origin, y_origin, dx, dy], covered) do
@@ -17,6 +27,19 @@ defmodule AdventOfCode2018.Day03 do
     end)
   end
 
-  def part2(_args) do
+  def part2(args) do
+    claims = args |> parse()
+
+    overlapping_ids =
+      claims
+      |> calculate_coverage()
+      |> Map.values()
+      |> Enum.filter(&(length(&1) > 1))
+      |> List.flatten()
+      |> MapSet.new()
+
+    claims
+    |> Enum.map(fn [id, _, _, _, _] -> id end)
+    |> Enum.find(&(!MapSet.member?(overlapping_ids, &1)))
   end
 end
