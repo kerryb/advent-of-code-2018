@@ -3,19 +3,14 @@ defmodule AdventOfCode2018.Day05Test do
 
   import AdventOfCode2018.Day05
 
-  @tag :skip
-  test "part1" do
-    input = nil 
-    result = part1(input)
-
-    assert result
+  @input "dabAcCaCBAcCcaDA"
+  test "part1 returns the length after reducing all reacting pairs" do
+    result = part1(@input)
+    assert result == 10
   end
 
-  @tag :skip
-  test "part2" do
-    input = nil 
-    result = part2(input)
-
-    assert result
+  test "part2 returns the shortest length after removing one character" do
+    result = part2(@input)
+    assert result == 4
   end
 end
