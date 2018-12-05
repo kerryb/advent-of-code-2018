@@ -6,18 +6,20 @@ defmodule AdventOfCode2018.Day04 do
   def part1(args) do
     {guard, minutes} =
       args
-      |> String.trim()
-      |> String.split("\n")
-      |> Enum.sort()
-      |> Enum.map(&String.split(&1, ~r/[[\]#: ]+/, trim: true))
-      |> Enum.reduce(%State{}, &parse_line/2)
-      |> Map.get(:guard_sleep_minutes)
-      |> Enum.max_by(fn {guard, minutes} -> length(minutes) end)
+      |> parse()
+      |> Enum.max_by(fn {_guard, minutes} -> length(minutes) end)
 
-    minute =
-      minutes |> Enum.group_by(& &1) |> Map.values() |> Enum.max_by(&length/1) |> List.first()
+    guard * sleepiest_minute(minutes)
+  end
 
-    guard * minute
+  defp parse(input) do
+    input
+    |> String.trim()
+    |> String.split("\n")
+    |> Enum.sort()
+    |> Enum.map(&String.split(&1, ~r/[[\]#: ]+/, trim: true))
+    |> Enum.reduce(%State{}, &parse_line/2)
+    |> Map.get(:guard_sleep_minutes)
   end
 
   defp parse_line([_, _, _, "Guard", id, "begins", "shift"], state) do
@@ -49,6 +51,18 @@ defmodule AdventOfCode2018.Day04 do
     start..(finish - 1) |> Enum.to_list()
   end
 
-  def part2(_args) do
+  defp sleepiest_minute(minutes) do
+    minutes |> Enum.group_by(& &1) |> Map.values() |> Enum.max_by(&length/1) |> List.first()
+  end
+
+  def part2(args) do
+    {guard, minutes} =
+      args
+      |> parse
+      |> Enum.max_by(fn {_guard, minutes} ->
+        minutes |> Enum.group_by(& &1) |> Map.values() |> Enum.map(&length/1)
+      end)
+
+    guard * sleepiest_minute(minutes)
   end
 end
